@@ -3,3 +3,7 @@
 __pycache__/
 *.pyc
 docker/embedding/bge-large-zh-v1.5/pytorch_model.bin
+*.log
+logs/
+*.docx
+~$*
