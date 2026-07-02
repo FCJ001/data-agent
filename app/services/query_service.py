@@ -1,7 +1,6 @@
 import json
 
-from langchain_huggingface import HuggingFaceEndpointEmbeddings
-
+from app.clients.embedding_client_manager import EmbeddingClientManager
 from app.agent.context import DataAgentContext
 from app.agent.graph import graph
 from app.agent.state import DataAgentState
@@ -14,7 +13,7 @@ from app.repositories.qdrant.metric_qdrant_repository import MetricQdrantReposit
 
 class QueryService:
     def __init__(self,
-                 embedding_client: HuggingFaceEndpointEmbeddings,
+                 embedding_client: EmbeddingClientManager,
                  column_qdrant_repository: ColumnQdrantRepository,
                  value_es_repository: ValueESRepository,
                  metric_qdrant_repository: MetricQdrantRepository,

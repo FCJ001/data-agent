@@ -7,3 +7,4 @@ docker/embedding/bge-large-zh-v1.5/pytorch_model.bin
 logs/
 *.docx
 ~$*
+conf/app_config.yaml

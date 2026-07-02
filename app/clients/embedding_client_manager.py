@@ -20,6 +20,9 @@ class EmbeddingClientManager:
         if self.client:
             await self.client.aclose()
 
+    async def aembed_query(self, text: str) -> list[float]:
+        return await self.embed_query(text)
+
     async def embed_query(self, text: str) -> list[float]:
         resp = await self.client.post("/embed", json={"inputs": text})
         resp.raise_for_status()

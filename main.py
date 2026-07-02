@@ -1,16 +1,30 @@
-# 这是一个示例 Python 脚本。
+import uuid
 
-# 按 ⌃F5 执行或将其替换为您的代码。
-# 按 双击 ⇧ 在所有地方搜索类、文件、工具窗口、操作和设置。
+from fastapi import FastAPI, Request
+
+from app.api.routers.query_router import query_router
+from app.core.context import request_id_ctx_var
+from app.core.lifespan import lifespan
+
+# 创建FastAPI应用，并注册生命周期函数
+app = FastAPI(lifespan=lifespan)
+
+# 注册路由
+app.include_router(query_router)
 
 
-def print_hi(name):
-    # 在下面的代码行中使用断点来调试脚本。
-    print(f'Hi, {name}')  # 按 F9 切换断点。
+# 添加中间件，在每个请求中生成唯一的request_id
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    # 调用路径函数之前
+    request_id_ctx_var.set(uuid.uuid4())
+    # 调用路径函数
+    response = await call_next(request)
+    # 调用路径函数之后
+    return response
 
 
-# 按装订区域中的绿色按钮以运行脚本。
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    import uvicorn
 
-# 访问 https://www.jetbrains.com/help/pycharm/ 获取 PyCharm 帮助
+    uvicorn.run(app, host="0.0.0.0", port=8000)
